@@ -1,0 +1,185 @@
+openapi: 3.0.2
+info:
+  title: Documentation for Companies API
+  description: Documented API endpoints for companies API
+
+
+servers:
+- url: http://companies.local/api/v1
+  description: Local server
+
+paths:
+  /companies:
+    get:
+      summary: Get all companies
+      description: Get all companies from the database of the application
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: Facebook
+                    address:
+                      type: string
+                      example: Partizanski odredi 33
+                    website:
+                      type: string
+                      example: www.google.com
+                    email:
+                      type: string
+                      example: frosina@gmail.com
+
+    post:
+      summary: Create new company
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: integer
+                userId:
+                  type: integer
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: New company created
+
+  /companies/{id}:
+    put:
+      description:
+      summary:
+      parameters:
+       -  name: id
+          required: true
+          in: path
+          description: Id of the company that needs to be updated
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ime
+                address:
+                  type: string
+                  example: Adresa
+                website:
+                  type: string
+                  example: website
+                email:
+                  type: string
+                  example: email@gmail.com
+              required:
+              - name
+              - address
+              - website
+              - email
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Ime
+                  address:
+                    type: string
+                    example: Adresa
+                  website:
+                    type: string
+                    example: website
+                  email:
+                    type: string
+                    example: email@gmail.com
+        '422':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 422 Unprocessable entity
+                  errors:
+                    type: object
+                    properties:
+                      property:
+                        type: array
+                        items:
+                          type: string
+                          example: Property is required
+
+
+    get:
+      parameters:
+        - name: id
+          required: true
+          description:
+          in: path
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                      type: string
+                      example: Ime
+                  address:
+                      type: string
+                      example: Adresa
+                  website:
+                      type: string
+                      example: website
+                  email:
+                      type: string
+                      example: email@gmail.com
+    delete:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Item was deleted
+
+
